@@ -4,7 +4,8 @@
 华南师范大学编译原理课程实验、考试复习内容与代码
 
 #### 软件架构
-Qt6.2.2 + MinGW 9.0.0 with posix thread model and g++ 11.2.1\
+Qt6.2.2 + MinGW 9.0.0 with posix thread model and g++ 11.2.1
+
 语言标准C++20
 
 
