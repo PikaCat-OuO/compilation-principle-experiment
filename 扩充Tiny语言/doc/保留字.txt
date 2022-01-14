@@ -1,0 +1,5 @@
+保留字
+if then else end repeat until do while for to downto enddo read write or and not
+
+特殊符号
+; := = -= <= >= < > <> == + - * / % ^ | & # ()

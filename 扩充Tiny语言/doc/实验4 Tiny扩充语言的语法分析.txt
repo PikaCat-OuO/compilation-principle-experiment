@@ -1,0 +1,141 @@
+实验四  TINY扩充语言的语法分析
+
+
+一、实验内容：
+
+扩充的语法规则有：实现 do while循环，for循环，扩充算术表达式的运算符号：-= 减法赋值运算符号（类似于C语言的-=）、求余%、乘方^，
+扩充比较运算符号：==（等于），>(大于)、<=(小于等于)、>=(大于等于)、<>(不等于)等运算符号，
+新增支持正则表达式以及用于repeat循环、do while循环、if条件语句作条件判断的逻辑表达式：运算符号有 and（与）、 or（或）、 not（非） 。
+具体文法规则自行构造。
+
+可参考：云盘中参考书P97及P136的文法规则。
+
+(1) dowhile-stmt-->do stmt-sequence  while(exp); 
+(2) for-stmt-->for identifier:=simple-exp  to  simple-exp  do  stmt-sequence enddo    步长递增1
+(3) for-stmt-->for identifier:=simple-exp  downto  simple-exp  do  stmt-sequence enddo    步长递减1
+(4) -= 减法赋值运算符号、求余%、乘方^、>=(大于等于)、<=(小于等于)、>(大于)、<>(不等于)运算符号的文法规则请自行组织。
+(5)把tiny原来的赋值运算符号(:=)改为(=),而等于的比较符号符号（=）则改为（==）
+(6)为tiny语言增加一种新的表达式——正则表达式，其支持的运算符号有  或(|)  、连接(&)、闭包(#)、括号( ) 以及基本正则表达式 。
+(7)为tiny语言增加一种新的语句，ID:=正则表达式  
+(8)为tiny语言增加一种新的表达式——逻辑表达式，其支持的运算符号有  and(与)  、or (或)、非(not)。
+(9)为了实现以上的扩充或改写功能，还需要对原tiny语言的文法规则做好相应的改造处理。 
+
+
+二、要求：
+（1）要提供一个源程序编辑界面，以让用户输入源程序（可保存、打开源程序）
+（2）可由用户选择是否生成语法树，并可查看所生成的语法树。
+（3）应该书写完善的软件文档
+（4）要求应用程序应为Windows界面。
+
+三、完成时间：四周（第13周-第17周）
+
+四、上交方法：
+    由各班班长或学习委员将每个同学的实验源程序、可执行程序、测试用例、文档刻录成光盘。
+
+
+五、完成方式：每个学生自行独立完成。
+
+
+六、测试数据
+
+测试文件1：
+
+
+{ Sample program
+  in TINY language -
+  computes factorial
+}
+read x; { input an integer }
+if ( 0<x ) { don't compute if x <= 0 }
+  for  fact = x downto 1 do 
+    fact = fact * x;
+  enddo
+  write fact;  { output factorial of x }
+end
+
+
+测试文件2：
+
+
+{ Sample program
+  in TINY language -
+  computes factorial
+}
+read x; { input an integer }
+if ( x>0 ) { don't compute if x <= 0 }
+  fact = 1;
+  do 
+    fact = fact * x;
+    x = x - 1
+  while((x>0))
+  write fact;  { output factorial of x }
+end
+
+为了做好全面的测试，你还需要增加更多的其他相应的测试文件。
+
+
+修正的测试文件1：
+{ Sample program
+  in TINY language -
+  computes factorial
+}
+read x; { input an integer }
+if ( 0<x ) then { don't compute if x <= 0 }
+  for  fact = x downto 1 do 
+    fact = fact * x
+  enddo;
+  write fact  { output factorial of x }
+end
+
+
+修正的测试文件2：
+{ Sample program
+  in TINY language -
+  computes factorial
+}
+read x; { input an integer }
+if ( x>0 ) then { don't compute if x <= 0 }
+  fact = 1;
+  do 
+    fact = fact * x;
+    x = x - 1
+  while((x>0));
+  write fact  { output factorial of x }
+end
+
+测试文件3：
+{ 测试语句序列和语句 }
+{ 测试read语句 }
+read x;
+{ 测试if语句、所有的比较运算符、所有的逻辑运算符与所有的表达式 }
+if (x < 0 + 1 and x > 2 - 1 or x >= 3 * 2 and not x <= 6 / 5 and (x <> 2 ^ (6 % 4) or x == x % 4)) then
+  { 测试:=正则表达式赋值 } 
+  reg := a|b|c|dccc|(aa|bb)&(cc|dd)#;
+  { 测试=赋值运算符 }
+  fact = 1;
+  { 测试-=赋值运算符 }
+  fact -= 1
+else
+  { 测试repeat语句 }
+  repeat
+    fact -= 2;
+    fact -= 1
+  until fact <= 0;
+  { 测试dowhile语句 }
+  do
+    fact = fact + 4;
+    fact = fact + 2
+  while (fact < 100);
+  { 测试for语句 }
+  for i = 0 to 1 do
+    i = i + x;
+    i = i + x * 2
+  enddo;
+  for i = 100 downto 1 do
+    i = i - x;
+    i = i - x * 2
+  enddo
+end;
+{ 测试repeat语句 }
+{ 测试write语句 }
+write x

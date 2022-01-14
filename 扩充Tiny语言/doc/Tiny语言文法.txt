@@ -1,0 +1,35 @@
+program -> stmt-sequence
+
+stmt-sequence -> statement { ; statement }
+
+statement -> if-stmt | repeat-stmt | dowhile-stmt | for-stmt | assign-stmt | read-stmt | write-stmt
+
+if-stmt -> if condition then stmt-sequence [else stmt-sequence] end
+repeat-stmt -> repeat stmt-sequence until condition
+dowhile-stmt -> do stmt-sequence while(condition)
+for-stmt -> for identifier=simple-exp (to simple-exp do stmt-sequence enddo  | downto simple-exp do stmt-sequence enddo)
+assign-stmt -> identifier (assignop exp | := regex)
+read-stmt -> read identifier
+write-stmt -> write exp
+
+assignop -> = | -=
+
+exp -> simple-exp [comparison-op simple-exp]
+comparison-op -> <= | >= | < | > | <> | ==
+
+simple-exp -> term {addop term}
+addop -> + | -
+term -> power {mulop power}
+mulop -> * | / | %
+power -> factor { ^ factor }
+factor -> (exp) | number | identifier
+
+condition  -> orterm {or orterm}
+orterm -> andterm {and andterm}
+andterm -> [not] notterm
+notterm-> (condition) | exp
+
+regex -> reorterm { | reorterm }
+reorterm -> reandterm { & reandterm }
+reandterm -> recloterm [#]
+recloterm -> (regex) | identifier
